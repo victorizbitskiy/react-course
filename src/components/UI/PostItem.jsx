@@ -1,11 +1,11 @@
 import React from 'react';
 
-const PostItem = (props) => {
+const PostItem = ({post}) => {
   return (
     <div className="post">
       <div className="post_content">
-        <strong>{props.post.id}. {props.post.title}</strong>
-        <div>{props.post.title.body}</div>
+        <strong>{post.id}. {post.title}</strong>
+        <div>{post.title.body}</div>
       </div>
       <div className="post_btns">
         <button>Удалить</button>

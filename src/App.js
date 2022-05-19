@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import Counter from "./components/Counter";
-import PostItem from "./components/PostItem";
-import PostList from "./components/PostList";
+import PostList from "./components/UI/PostList"
 import "./styles/App.css";
+import MyButton from "./components/UI/button/MyButton";
+import MyInput from "./components/UI/input/MyInput";
 
 function App() {
   let [posts, setPosts] = useState([
@@ -14,6 +14,11 @@ function App() {
 
   return (
     <div className="App">
+      <form>
+        <MyInput type="text" placeholder="Название поста"></MyInput>
+        <MyInput type="text" placeholder="Описание поста"></MyInput>
+        <MyButton>Создать пост</MyButton>
+      </form>
       <PostList posts={posts} title="Список постов" />
     </div>
   );
