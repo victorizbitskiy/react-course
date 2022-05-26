@@ -3,6 +3,7 @@ import PostList from "./components/UI/PostList";
 import "./styles/App.css";
 import PostForm from "./components/UI/PostForm";
 import PostFilter from "./components/UI/PostFilter";
+import MyModal from "./components/UI/modal/MyModal";
 
 function App() {
   let [posts, setPosts] = useState([
@@ -11,7 +12,7 @@ function App() {
     { id: 3, title: "ABAP", body: "5 ABAP Description" },
     { id: 4, title: "Java", body: "8 Java Description" },
   ]);
-  const [filter, setFilter] = useState({ sortType: '', query: '' });
+  const [filter, setFilter] = useState({ sortType: "", query: "" });
 
   const sortedPosts = useMemo(() => {
     if (filter.sortType) {
@@ -38,7 +39,10 @@ function App() {
 
   return (
     <div className="App">
-      <PostForm create={createPost} />
+      <MyModal>
+        <PostForm create={createPost} />
+      </MyModal>
+
       <hr style={{ margin: "15px 0" }}></hr>
       <PostFilter filter={filter} setFilter={setFilter} />
       <PostList
