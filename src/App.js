@@ -39,7 +39,7 @@ function App() {
 
   return (
     <div className="App">
-      <MyModal>
+      <MyModal visible={true}>
         <PostForm create={createPost} />
       </MyModal>
 
