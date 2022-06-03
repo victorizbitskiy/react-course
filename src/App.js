@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PostList from "./components/UI/PostList";
 import "./styles/App.css";
 import PostForm from "./components/UI/PostForm";
@@ -17,8 +17,11 @@ function App() {
   ]);
   const [filter, setFilter] = useState({ sortType: "", query: "" });
   const [modal, setModal] = useState(false);
-
   const sortedAndSearchedPosts = usePosts(posts, filter.sortType, filter.query)
+
+  useEffect(() => {
+    fetchPosts()
+  }, [])
 
   const createPost = (newPost) => {
     setPosts([...posts, newPost]);
@@ -36,7 +39,6 @@ function App() {
 
   return (
     <div className="App">
-      <button onClick={fetchPosts}> GET POSTS</button>
       <MyButton style={{marginTop: 30}} onClick={() => setModal(true)}>Создать</MyButton>
       <MyModal visible={modal} setVisible={setModal}>
         <PostForm create={createPost} />
