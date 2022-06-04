@@ -5,8 +5,8 @@ import PostForm from "./components/UI/PostForm";
 import PostFilter from "./components/UI/PostFilter";
 import MyModal from "./components/UI/modal/MyModal";
 import MyButton from "./components/UI/button/MyButton";
-import {usePosts} from "./hooks/usePosts"
-const axios = require('axios').default;
+import { usePosts } from "./hooks/usePosts";
+import PostService from "./API/PostService";
 
 function App() {
   let [posts, setPosts] = useState([
@@ -17,20 +17,20 @@ function App() {
   ]);
   const [filter, setFilter] = useState({ sortType: "", query: "" });
   const [modal, setModal] = useState(false);
-  const sortedAndSearchedPosts = usePosts(posts, filter.sortType, filter.query)
+  const sortedAndSearchedPosts = usePosts(posts, filter.sortType, filter.query);
 
   useEffect(() => {
-    fetchPosts()
-  }, [])
+    fetchPosts();
+  }, []);
 
   const createPost = (newPost) => {
     setPosts([...posts, newPost]);
-    setModal(false)
+    setModal(false);
   };
 
   async function fetchPosts() {
-    const response = await axios.get('https://jsonplaceholder.typicode.com/posts')
-    setPosts(response.data) 
+    const posts = await PostService.getAll();
+    setPosts(posts);
   }
 
   const removePost = (post) => {
@@ -39,7 +39,9 @@ function App() {
 
   return (
     <div className="App">
-      <MyButton style={{marginTop: 30}} onClick={() => setModal(true)}>Создать</MyButton>
+      <MyButton style={{ marginTop: 30 }} onClick={() => setModal(true)}>
+        Создать
+      </MyButton>
       <MyModal visible={modal} setVisible={setModal}>
         <PostForm create={createPost} />
       </MyModal>
