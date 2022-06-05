@@ -9,15 +9,11 @@ import { usePosts } from "./hooks/usePosts";
 import PostService from "./API/PostService";
 
 function App() {
-  let [posts, setPosts] = useState([
-    { id: 1, title: "JavaScript", body: "1 JavaScript Description" },
-    { id: 2, title: "Python", body: "10 Python Description" },
-    { id: 3, title: "ABAP", body: "5 ABAP Description" },
-    { id: 4, title: "Java", body: "8 Java Description" },
-  ]);
+  let [posts, setPosts] = useState([]);
   const [filter, setFilter] = useState({ sortType: "", query: "" });
   const [modal, setModal] = useState(false);
   const sortedAndSearchedPosts = usePosts(posts, filter.sortType, filter.query);
+  const [isPostsLoading, setPostsLoading] = useState(false);
 
   useEffect(() => {
     fetchPosts();
@@ -29,8 +25,10 @@ function App() {
   };
 
   async function fetchPosts() {
+    setPostsLoading(true);
     const posts = await PostService.getAll();
     setPosts(posts);
+    setPostsLoading(false);
   }
 
   const removePost = (post) => {
@@ -48,11 +46,15 @@ function App() {
 
       <hr style={{ margin: "15px 0" }}></hr>
       <PostFilter filter={filter} setFilter={setFilter} />
-      <PostList
+      {isPostsLoading
+      ? <h1>Идет загрузка...</h1> 
+      : <PostList
         remove={removePost}
         posts={sortedAndSearchedPosts}
         title="Список постов"
       />
+      }
+
     </div>
   );
 }
