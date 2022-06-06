@@ -7,6 +7,7 @@ import MyModal from "./components/UI/modal/MyModal";
 import MyButton from "./components/UI/button/MyButton";
 import { usePosts } from "./hooks/usePosts";
 import PostService from "./API/PostService";
+import Loader from "./components/UI/loader/Loader";
 
 function App() {
   let [posts, setPosts] = useState([]);
@@ -26,9 +27,12 @@ function App() {
 
   async function fetchPosts() {
     setPostsLoading(true);
-    const posts = await PostService.getAll();
-    setPosts(posts);
-    setPostsLoading(false);
+    setTimeout(async () => {
+      const posts = await PostService.getAll();
+      setPosts(posts);
+      setPostsLoading(false);
+    }, 1000);
+
   }
 
   const removePost = (post) => {
@@ -46,15 +50,19 @@ function App() {
 
       <hr style={{ margin: "15px 0" }}></hr>
       <PostFilter filter={filter} setFilter={setFilter} />
-      {isPostsLoading
-      ? <h1>Идет загрузка...</h1> 
-      : <PostList
-        remove={removePost}
-        posts={sortedAndSearchedPosts}
-        title="Список постов"
-      />
-      }
-
+      {isPostsLoading 
+        ? <div
+          styles={{ display: "flex", justifyContent: "center", marginTop: 50 }}
+        >
+          <Loader />
+        </div>
+       : (
+        <PostList
+          remove={removePost}
+          posts={sortedAndSearchedPosts}
+          title="Список постов"
+        />
+      )}
     </div>
   );
 }
