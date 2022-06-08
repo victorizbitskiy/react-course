@@ -9,15 +9,22 @@ import { usePosts } from "./hooks/usePosts";
 import PostService from "./API/PostService";
 import Loader from "./components/UI/loader/Loader";
 import { useFetching } from "./hooks/useFetching";
+import { getPageCount } from "./utils/pages";
 
 function App() {
   let [posts, setPosts] = useState([]);
   const [filter, setFilter] = useState({ sortType: "", query: "" });
   const [modal, setModal] = useState(false);
+  const [totalPages, setTotalPages] = useState(0);
+  const [limit, setLimit] = useState(10);
+  const [page, setpage] = useState(1);
   const sortedAndSearchedPosts = usePosts(posts, filter.sortType, filter.query);
+
   const [fetchPosts, isPostsLoading, postsError] = useFetching(async () => {
-    const posts = await PostService.getAll();
-    setPosts(posts);
+    const response = await PostService.getAll(limit, page);
+    setPosts(response.data);
+    const totalCount = response.headers["x-total-count"];
+    setTotalPages(getPageCount(totalCount, limit));
   });
 
   useEffect(() => {
@@ -47,7 +54,7 @@ function App() {
       {postsError && <h1>Произошла ошибка ${postsError}</h1>}
       {isPostsLoading ? (
         <div
-          styles={{ display: 'flex', justifyContent: 'center', marginTop: 50 }}
+          styles={{ display: "flex", justifyContent: "center", marginTop: 50 }}
         >
           <Loader />
         </div>
