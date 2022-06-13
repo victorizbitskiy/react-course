@@ -62,7 +62,11 @@ function App() {
       {postsError && <h1>Произошла ошибка ${postsError}</h1>}
       {isPostsLoading ? (
         <div
-          styles={{ display: "flex", justifyContent: "center", marginTop: 50 }}
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginTop: 50,
+          }}
         >
           <Loader />
         </div>
@@ -73,11 +77,7 @@ function App() {
           title="Список постов"
         />
       )}
-      <Pagination
-        totalPages={totalPages}
-        page={page}
-        changePage={changePage}
-      />
+      <Pagination page={page} totalPages={totalPages} changePage={changePage} />
     </div>
   );
 }
