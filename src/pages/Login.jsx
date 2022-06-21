@@ -13,10 +13,10 @@ const Login = () => {
   return (
     <div>
       <h1>Страница для логина</h1>
-      <form onClick={login}>
-        <MyInput type="text" placeholder="Введите логин"></MyInput>
-        <MyInput type="password" placeholder="Введите пароль"></MyInput>
-        <MyButton>Войти</MyButton>
+      <form >
+        <MyInput type="text" placeholder="Введите логин" autoComplete="off"></MyInput>
+        <MyInput type="password" placeholder="Введите пароль" autoComplete="off"></MyInput>
+        <MyButton onClick={login}>Войти</MyButton>
       </form>
     </div>
   );
