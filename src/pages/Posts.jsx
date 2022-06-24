@@ -7,6 +7,7 @@ import Pagination from "../components/UI/pagination/Pagination";
 import PostFilter from "../components/UI/PostFilter";
 import PostForm from "../components/UI/PostForm";
 import PostList from "../components/UI/PostList";
+import MySelect from "../components/UI/select/MySelect";
 import { useFetching } from "../hooks/useFetching";
 import { useObserver } from "../hooks/useObserver";
 import { usePosts } from "../hooks/usePosts";
@@ -37,7 +38,7 @@ function Posts() {
 
   useEffect(() => {
     fetchPosts(limit, page);
-  }, [page]);
+  }, [page, limit]);
 
   const createPost = (newPost) => {
     setPosts([...posts, newPost]);
@@ -62,7 +63,21 @@ function Posts() {
       </MyModal>
 
       <hr style={{ margin: "15px 0" }}></hr>
+
       <PostFilter filter={filter} setFilter={setFilter} />
+      <MySelect
+        value={limit}
+        onChange={value => setLimit(value)}
+        defaultValue="Кол-во элементов на странице"
+        options={[
+          { value: 5, name: '5' },
+          { value: 10, name: '10' },
+          { value: 25, name: '25' },
+          { value: -1, name: 'Показать все' },
+        ]}
+      />
+
+
       {postsError && <h1>Произошла ошибка ${postsError}</h1>}
       {isPostsLoading && (
         <div
